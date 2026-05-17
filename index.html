@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Klani E Detit | HQ</title>
-<style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap');
 
         :root {
             --bg: #000000;
@@ -28,12 +28,11 @@
             font-family: 'Inter', sans-serif;
             color: var(--text);
             margin: 0;
-            min-height: 100vh;
-            overflow-x: hidden;
+            height: 100vh;
+            overflow: hidden; 
             background: linear-gradient(45deg, #000000, #0f172a, #000000, #050a15);
             background-size: 400% 400%;
             animation: gradientDrift 20s ease infinite alternate;
-            background-attachment: fixed;
             color-scheme: dark;
         }
 
@@ -42,7 +41,48 @@
             100% { background-position: 100% 50%; }
         }
 
-        .container, .section, nav {
+        .app-layout {
+            display: flex;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .sidebar {
+            width: 260px;
+            background: rgba(19, 19, 21, 0.95);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            z-index: 200;
+        }
+
+        .sidebar-header {
+            padding: 1.8rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .sidebar nav {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 1.5rem 1rem;
+            margin: 0;
+            overflow-y: auto;
+        }
+
+        .content-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .container, .section {
             max-width: 1100px !important;
             margin: 0 auto !important;
             width: 100%;
@@ -58,9 +98,9 @@
         }
 
         header {
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.7);
             backdrop-filter: blur(20px);
-            padding: 1.5rem 2rem;
+            padding: 1.2rem 2rem;
             border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
@@ -70,51 +110,89 @@
             z-index: 100;
         }
 
-        nav {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            padding: 1.5rem 1rem;
-            margin-bottom: 1rem !important;
-            flex-wrap: wrap;
-        }
-
         .nav-btn {
             background: transparent;
             color: var(--text-muted);
-            border: 1px solid var(--border);
-            border-radius: 99px;
-            padding: 0.6rem 1.5rem;
+            border: 1px solid transparent;
+            border-radius: var(--radius-sm);
+            padding: 0.9rem 1.2rem;
             cursor: pointer;
             font-weight: 600;
             font-size: 0.9rem;
             letter-spacing: 0.5px;
+            text-align: left;
             transition: all 0.2s var(--ease);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .nav-btn:hover {
             color: var(--text);
             background: var(--surface-light);
-            border-color: #333;
-            transform: translateY(-2px);
+            transform: translateX(5px);
         }
 
         .nav-btn.active-nav {
             color: #fff;
             background: var(--accent);
             border-color: var(--accent);
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
 
         @keyframes pulseAlert {
             0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5); }
-            70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+            70% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
             100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
         }
         .nav-btn-alert { 
             animation: pulseAlert 1.5s infinite !important; 
             background: rgba(239, 68, 68, 0.15) !important; 
             color: var(--danger) !important; 
-            border-color: var(--danger) !important; 
+            border-color: rgba(239, 68, 68, 0.3) !important; 
+        }
+
+        @keyframes kervenyPulse {
+            0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(245, 158, 11, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+        }
+
+        .has-kerveny-alert {
+            position: relative;
+            color: var(--warn) !important;
+            border: 1px solid rgba(245, 158, 11, 0.3) !important;
+            background: rgba(245, 158, 11, 0.05) !important;
+            animation: kervenyPulse 2s infinite !important;
+        }
+
+        .has-kerveny-alert:hover {
+            background: rgba(245, 158, 11, 0.1) !important;
+            transform: translateX(5px);
+        }
+
+        .has-kerveny-alert.active-nav {
+            background: var(--warn) !important;
+            color: #fff !important;
+            border-color: var(--warn) !important;
+            animation: none !important; 
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3) !important;
+        }
+        
+        .kerveny-badge {
+            background: var(--warn);
+            color: #000;
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            transition: all 0.2s;
+        }
+        .has-kerveny-alert.active-nav .kerveny-badge {
+            background: #fff;
+            color: var(--warn);
         }
 
         .card {
@@ -124,6 +202,82 @@
             padding: 2rem;
             margin-bottom: 1.5rem;
         }
+
+        /* --- STÍLUSOS LOGIN & JELSZÓCSERE PANELEK --- */
+        .auth-card {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: linear-gradient(145deg, rgba(28, 28, 31, 0.95), rgba(19, 19, 21, 0.98));
+            border-radius: var(--radius);
+            padding: 3.5rem 2.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+        }
+
+        .auth-seal {
+            width: 70px;
+            height: 70px;
+            background: transparent;
+            color: var(--accent);
+            fill: currentColor;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1.5px solid var(--accent);
+            border-radius: 50%;
+            padding: 12px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.2), inset 0 0 15px rgba(59, 130, 246, 0.1);
+        }
+
+        .auth-card h2 {
+            margin: 0 0 2rem 0;
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--text);
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        .auth-card .input-group {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .auth-card input {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 1.2rem;
+            margin: 0;
+            transition: all 0.3s;
+        }
+
+        .auth-card input:focus {
+            background: rgba(0, 0, 0, 0.6);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        }
+
+        .auth-card .btn-primary {
+            width: 100%;
+            padding: 1.2rem;
+            font-size: 1.05rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.2);
+        }
+
+        .auth-card .btn-primary:hover {
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* ------------------------------------------- */
 
         .btn {
             background: var(--surface-light);
@@ -228,240 +382,260 @@
 </head>
 <body>
 
-    <div id="login-screen" class="auth-screen active" style="height:100vh;display:flex;align-items:center;justify-content:center">
-        <div class="card" style="width:350px;text-align:center">
-            <h2 style="color:var(--text); margin-bottom:2rem; font-size:2rem;">Klani E Detit</h2>
-            <input type="text" id="login-user" placeholder="Felhasználó név">
-            <input type="password" id="login-pass" placeholder="Jelszó">
-            <button class="btn btn-primary" style="width:100%; margin-top: 10px;" onclick="bejelentkezes()">Bejelentkezés</button>
-            <p id="login-hiba" style="color:var(--danger);margin-top:1rem"></p>
+    <div id="login-screen" class="auth-screen active" style="height:100vh;display:flex;align-items:center;justify-content:center; position: relative; z-index: 1000;">
+        <div class="auth-card" style="width: 400px; box-sizing: border-box;">
+            <div class="auth-seal">
+                <img src="https://i.imgur.com/69WuM5D.png" alt="Logo" style="width: 100%; height: 100%; object-fit: contain;">
+            </div>
+            <h2>Klani E Detit</h2>
+            <div class="input-group">
+                <input type="text" id="login-user" placeholder="Felhasználó név">
+                <input type="password" id="login-pass" placeholder="Jelszó">
+            </div>
+            <button class="btn btn-primary" onclick="bejelentkezes()">Bejelentkezés</button>
+            <p id="login-hiba" style="color:var(--danger); margin: 1rem 0 0 0; font-size: 0.9rem; min-height: 20px;"></p>
         </div>
     </div>
     
-    <div id="main-app" style="display:none">
-        <header>
-            <h1 style="color:var(--text);font-size:1.1rem;font-weight:600;margin:0;flex:1">KLANI E DETIT | HQ</h1>
-            <div id="header-rang" style="color:var(--text-muted);font-weight:500;text-align:center;flex:1">RANG: -</div>
-            <div style="flex:1;text-align:right; display:flex; justify-content:flex-end; align-items:center; gap:15px;">
-                <span id="logged-in-user" style="color:var(--text);font-weight:500; display:flex; align-items:center; gap:10px;">
-                    <div style="width:32px; height:32px; background:var(--surface-light); border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--text-muted);">U</div>
-                    <span>User</span>
-                </span>
-                <button onclick="kijelentkezes()" style="padding:0.4rem 1rem; font-size:0.85rem; background:rgba(239, 68, 68, 0.15); color:var(--danger); border:none; border-radius:99px; cursor:pointer; font-weight:500; transition:all 0.2s;">
-                    Kijelentkezés
-                </button>
-            </div>
-        </header>
+    <div id="main-app" style="display:none" class="app-layout">
         
-        <nav>
-            <button class="nav-btn active-nav" onclick="tab('hirek-section',this)">Főoldal</button>
-            <button class="nav-btn" onclick="tab('kassza-section',this)">Frakció számla</button>
-            <button class="nav-btn" id="nav-leadando" onclick="tab('leadando-section',this)">Leadandó</button>
-            <button class="nav-btn" onclick="tab('tagok-section',this)">Tagok</button>
-            <button class="nav-btn" id="nav-akcio" onclick="tab('akcio-section',this)">Akció</button>
-            <button class="nav-btn" id="nav-kerveny" onclick="tab('kervenyek-section',this)">Kérvények</button>
-            <button class="nav-btn" id="nav-warn" style="display:none;color:var(--warn)" onclick="tab('warn-section',this)">WARN</button>
-            <button class="nav-btn" onclick="tab('profil-section',this)">Saját Profil</button>
-            <button class="nav-btn" id="nav-jogok" style="display:none;color:var(--danger)" onclick="tab('jogok-section',this)">ADMIN panel</button>
-        </nav>
-        
-        <div class="container">
-            <div id="password-screen" class="section card" style="max-width:400px;margin:auto;text-align:center">
-                <h2>Üdvözöllek! Válts jelszót:</h2>
-                <input type="password" id="new-pass" placeholder="Új jelszó">
-                <button class="btn btn-primary" style="width:100%;" onclick="jelszocsere()">Mentés</button>
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1 style="color:var(--text);font-size:1.15rem;font-weight:700;margin:0; letter-spacing: 1px;">KLANI E DETIT | HQ</h1>
             </div>
-            
-            <div id="hirek-section" class="section active" style="position: relative;">
-                <div class="home-layout">
-                    <div class="home-main">
-                        <div id="uj-hir-doboz" class="card" style="display:none">
-                            <h3 style="margin-top:0;">Új bejegyzés</h3>
-                            <input type="text" id="hir-cim" placeholder="Cím">
-                            <textarea id="hir-tartalom" rows="3" placeholder="Tartalom..."></textarea>
-                            <button class="btn btn-primary" onclick="posztolHir()">Küldés</button>
-                        </div>
-                        <div id="hirek-lista"></div>
-                    </div>
+            <nav>
+                <button class="nav-btn active-nav" onclick="tab('hirek-section',this)">Főoldal</button>
+                <button class="nav-btn" onclick="tab('kassza-section',this)">Frakció számla</button>
+                <button class="nav-btn" id="nav-leadando" onclick="tab('leadando-section',this)">Leadandó</button>
+                <button class="nav-btn" onclick="tab('tagok-section',this)">Tagok</button>
+                <button class="nav-btn" id="nav-akcio" onclick="tab('akcio-section',this)">Akció</button>
+                <button class="nav-btn" id="nav-kerveny" onclick="tab('kervenyek-section',this)">Kérvények</button>
+                <button class="nav-btn" id="nav-warn" style="display:none;color:var(--warn)" onclick="tab('warn-section',this)">WARN</button>
+                <button class="nav-btn" onclick="tab('profil-section',this)">Saját Profil</button>
+                <button class="nav-btn" id="nav-jogok" style="display:none;color:var(--danger)" onclick="tab('jogok-section',this)">ADMIN panel</button>
+            </nav>
+        </aside>
 
-                    <div class="home-sidebar">
-                        <div class="card" style="display:flex; flex-direction:column; align-items:center; text-align:center; padding:2rem;">
-                            <h3 style="margin: 0 0 8px 0; font-weight: 600; font-size: 1.1rem;">Akció részvétel</h3>
-                            <p style="margin: 0 0 20px 0; color: var(--text-muted); font-size: 0.9rem;">Vegyél részt akciókon, hogy elérd a kötelező szintet!</p>
-                            <div class="progress-circle" id="daras-circle">
-                                <div class="progress-text" id="daras-text"><span>0</span> / 8</div>
+        <div class="content-wrapper">
+            <header>
+                <div id="header-rang" style="color:var(--text-muted);font-weight:500; text-transform:uppercase; letter-spacing:1px; flex:1;">RANG: -</div>
+                <div style="flex:1;text-align:right; display:flex; justify-content:flex-end; align-items:center; gap:15px;">
+                    <span id="logged-in-user" style="color:var(--text);font-weight:500; display:flex; align-items:center; gap:10px;">
+                        <div style="width:32px; height:32px; background:var(--surface-light); border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--text-muted); border: 1px solid var(--border);">U</div>
+                        <span>User</span>
+                    </span>
+                    <button onclick="kijelentkezes()" style="padding:0.4rem 1rem; font-size:0.85rem; background:rgba(239, 68, 68, 0.15); color:var(--danger); border:none; border-radius:99px; cursor:pointer; font-weight:500; transition:all 0.2s;">
+                        Kijelentkezés
+                    </button>
+                </div>
+            </header>
+            
+            <div class="container" style="padding-top: 2rem; padding-bottom: 2rem;">
+                
+                <div id="password-screen" class="section" style="max-width:400px; margin:auto;">
+                    <div class="auth-card" style="width: 100%; box-sizing: border-box;">
+                        <div class="auth-seal">
+                            <img src="https://i.imgur.com/69WuM5D.png" alt="Logo" style="width: 100%; height: 100%; object-fit: contain;">
+                        </div>
+                        <h2 style="font-size: 1.6rem; text-align: center;">Üdvözöllek! Válts jelszót:</h2>
+                        <div class="input-group">
+                            <input type="password" id="new-pass" placeholder="Új jelszó">
+                        </div>
+                        <button class="btn btn-primary" onclick="jelszocsere()">Mentés</button>
+                    </div>
+                </div>
+                
+                <div id="hirek-section" class="section active" style="position: relative;">
+                    <div class="home-layout">
+                        <div class="home-main">
+                            <div id="uj-hir-doboz" class="card" style="display:none">
+                                <h3 style="margin-top:0;">Új bejegyzés</h3>
+                                <input type="text" id="hir-cim" placeholder="Cím">
+                                <textarea id="hir-tartalom" rows="3" placeholder="Tartalom..."></textarea>
+                                <button class="btn btn-primary" onclick="posztolHir()">Küldés</button>
                             </div>
-                            <div id="daras-subtitle" style="margin-top:20px; color:var(--text-muted); font-size:0.9rem;">Betöltés...</div>
+                            <div id="hirek-lista"></div>
                         </div>
-                        <div id="szervezo-kontener"></div>
-                    </div>
-                </div>
-            </div>
 
-            <div id="kervenyek-section" class="section">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
-                    <h2 style="margin:0;">Kérvények és Igénylések</h2>
-                    <button class="btn btn-primary" id="uj-kerveny-btn" style="display:none;" onclick="document.getElementById('kerveny-form').style.display='block';">Új Kérvény Írása</button>
+                        <div class="home-sidebar">
+                            <div class="card" style="display:flex; flex-direction:column; align-items:center; text-align:center; padding:2rem;">
+                                <h3 style="margin: 0 0 8px 0; font-weight: 600; font-size: 1.1rem;">Akció részvétel</h3>
+                                <p style="margin: 0 0 20px 0; color: var(--text-muted); font-size: 0.9rem;">Vegyél részt akciókon, hogy elérd a kötelező szintet!</p>
+                                <div class="progress-circle" id="daras-circle">
+                                    <div class="progress-text" id="daras-text"><span>0</span> / 8</div>
+                                </div>
+                                <div id="daras-subtitle" style="margin-top:20px; color:var(--text-muted); font-size:0.9rem;">Betöltés...</div>
+                            </div>
+                            <div id="szervezo-kontener"></div>
+                        </div>
+                    </div>
                 </div>
 
-                <div id="kerveny-form" class="card" style="display:none; border:1px solid var(--accent);">
-                    <h3 style="margin-top:0; color:var(--accent);">Kérvény Beküldése</h3>
-                    <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:15px;">Kérlek, részletesen és egyértelműen fogalmazd meg a kérésedet (pl. Inaktivitás, Rang emelés stb.).</p>
-                    <input type="text" id="kerveny-cim" placeholder="Kérvény tárgya">
-                    <textarea id="kerveny-tartalom" rows="5" placeholder="Indoklás és részletek..."></textarea>
-                    <div style="display:flex; justify-content:flex-end; gap:10px;">
-                        <button class="btn" onclick="document.getElementById('kerveny-form').style.display='none';">Mégse</button>
-                        <button class="btn btn-primary" onclick="bekuldKerveny()">Beküldés</button>
+                <div id="kervenyek-section" class="section">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
+                        <h2 style="margin:0;">Kérvények és Igénylések</h2>
+                        <button class="btn btn-primary" id="uj-kerveny-btn" style="display:none;" onclick="document.getElementById('kerveny-form').style.display='block';">Új Kérvény Írása</button>
                     </div>
-                </div>
-                <input type="text" id="kerveny-kereso" placeholder="Keresés beküldő neve szerint (IC/Discord)..." style="background:var(--surface); border:1px solid var(--border); border-radius:99px; padding:12px 20px;" oninput="szuresKervenyek(this.value)">
-                <div id="kervenyek-lista"></div>
-            </div>
-            
-            <div id="leadando-section" class="section">
-                <div class="card" style="text-align:center">
-                    <h2 style="margin-top:0">Heti Leadandó Státusz</h2>
-                    <p style="color:var(--text-muted);font-size:.9rem;margin-bottom:20px">A heti leadandót a vezetőség manuálisan zárja le.</p>
-                    <h1 id="leadando-sajat-display" style="font-size:2.5rem;margin:0 0 20px 0; font-weight:700;">Betöltés...</h1>
-                    <div id="leadando-befizetes-box" style="display:none;justify-content:center;align-items:center;gap:15px;flex-wrap:wrap;margin-top:10px">
-                        <input type="text" id="leadando-osszeg" placeholder="Összeg ($)" style="width:150px;margin:0;text-align:center" oninput="formatNumber(this)">
-                        <div style="display:flex;align-items:center;width:250px;position:relative;margin:0">
-                            <input type="text" id="leadando-link" placeholder="Igazoló Link (Imgur/Discord)" style="width:100%;margin:0">
-                            <div class="tooltip"><span style="color:var(--text-muted);font-weight:600;font-size:1.2rem;">ⓘ</span><span class="tooltiptext">Ide másold be a befizetést igazoló képernyőmentés linkjét!</span></div>
-                        </div>
-                        <button class="btn btn-warn" onclick="inditLeadando()">Befizetés rögzítése</button>
-                    </div>
-                </div>
-                <div id="leadando-admin-box" class="card" style="display:none;padding:0;overflow:hidden">
-                    <div style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border);">
-                        <h3 style="margin: 0;">Tagok Leadandó Állapota</h3>
-                        <button id="manualis-zaras-btn" class="btn btn-danger" style="display: none; padding: 0.5rem 1rem; font-size: 0.8rem; margin: 0;">HETI ZÁRÁS</button>
-                    </div>
-                    <div class="table-wrapper" style="padding: 0 1rem 1rem 1rem;">
-                        <table>
-                            <thead><tr><th>Név</th><th>Rang</th><th>Befizetve</th><th>Kötelező</th><th>Státusz</th></tr></thead>
-                            <tbody id="leadando-admin-lista"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            
-            <div id="warn-section" class="section">
-                <div class="card">
-                    <h3 style="margin-top:0">Új Figyelmeztetés Kiosztása</h3>
-                    <div style="display:flex;gap:15px;flex-wrap:wrap; margin-bottom:15px;">
-                        <select id="warn-tag-select" style="flex:1;min-width:200px; margin:0;"></select>
-                        <select id="warn-napok" style="flex:1;min-width:150px; margin:0;">
-                            <option value="1">1 Nap</option>
-                            <option value="7">7 Nap</option>
-                            <option value="30">30 Nap</option>
-                            <option value="0">Végleges</option>
-                        </select>
-                    </div>
-                    <textarea id="warn-indok" rows="2" placeholder="Figyelmeztetés indoka (Kötelező)"></textarea>
-                    <button class="btn btn-warn" style="width:100%" onclick="kiosztWarn()">Figyelmeztetés Rögzítése</button>
-                </div>
-                <div class="card" style="padding:0;overflow:hidden">
-                    <h3 style="padding:1.5rem; margin:0; border-bottom: 1px solid var(--border);">Kiosztott Warnok</h3>
-                    <div class="table-wrapper" style="padding: 1rem;">
-                        <table>
-                            <thead><tr><th>Dátum</th><th>Tag</th><th>Kiosztó</th><th>Lejárat</th><th>Állapot</th><th>Művelet</th></tr></thead>
-                            <tbody id="warn-lista"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            
-            <div id="akcio-section" class="section">
-                <div id="uj-akcio-box" class="card" style="display:none;">
-                    <h3 style="display:flex;justify-content:space-between;align-items:center; margin-top:0;">Új Esemény Szervezése
-                        <button id="szezon-zaras-btn" class="btn btn-danger" style="display:none;padding:.5rem 1rem;font-size:.8rem" onclick="szezonzaras()">Akciók archiválása</button>
-                    </h3>
-                    <div style="display:flex;gap:15px;flex-wrap:wrap; align-items:center;">
-                        <select id="uj-akcio-tipus" style="flex:1;min-width:150px;margin:0">
-                            <option value="ATM">ATM</option><option value="BANK">BANK</option><option value="SZIGET">SZIGET</option><option value="KÚT">KÚT</option>
-                        </select>
-                        <div id="tervezes-box" style="display:none; flex:1; min-width:150px;">
-                            <input type="datetime-local" id="uj-akcio-ido" style="margin:0;" title="Hagyd üresen, ha most azonnal indul">
-                        </div>
-                        <button class="btn btn-primary" style="flex:1;min-width:150px;" onclick="letrehozAkcio()">Esemény Indítása</button>
-                    </div>
-                </div>
-                <input type="text" id="akcio-kereso" placeholder="Keresés..." style="background:var(--surface); border:1px solid var(--border); border-radius:99px; padding:12px 20px;" oninput="szuresAkciok(this.value)">
-                <div id="akciok-lista"></div>
-            </div>
-            
-            <div id="kassza-section" class="section">
-                <div class="card" style="text-align:center">
-                    <p style="color:var(--text-muted); margin-bottom:5px;">Jelenlegi egyenleg</p>
-                    <h1 id="balanceDisplay" style="font-size:3rem; font-weight:700; margin:0 0 25px 0">0 $</h1>
-                    <div id="kassza-controls" style="display:none;justify-content:center;gap:15px;flex-wrap:wrap">
-                        <input type="text" id="osszeg" placeholder="Összeg" style="width:200px;margin:0" oninput="formatNumber(this)">
-                        <button class="btn" style="background:var(--success); color:white;" onclick="inditTranzakcio('be')">Befizetés</button>
-                        <button class="btn btn-danger" onclick="inditTranzakcio('ki')">Kifizetés</button>
-                    </div>
-                </div>
-                <div class="card" style="padding:0;overflow:hidden">
-                    <div class="table-wrapper" style="padding: 1rem;">
-                        <table>
-                            <thead><tr><th>Dátum</th><th>Tag</th><th>Típus</th><th>Összeg</th><th>Bizonyíték</th></tr></thead>
-                            <tbody id="kassza-log-lista"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            
-            <div id="tagok-section" class="section">
-                <div id="tag-felvetel-box" class="card" style="display:none;">
-                    <h3 style="margin-top:0">Új tag felvétele</h3>
-                    <p style="font-size:.8rem;color:var(--text-muted);margin-bottom:15px">Alapértelmezett jelszó: 123456</p>
-                    <div style="display:flex;gap:15px;flex-wrap:wrap">
-                        <input type="text" id="uj-tag-user" placeholder="Felhasználó név" style="flex:1;min-width:150px;margin:0">
-                        <input type="text" id="uj-tag-ic" placeholder="IC Név" style="flex:1;min-width:150px;margin:0">
-                        <input type="text" id="uj-tag-discord" placeholder="Discord" style="flex:1;min-width:150px;margin:0">
-                        <select id="uj-tag-rang-select" style="flex:1;min-width:150px;margin:0"></select>
-                        <button class="btn btn-primary" onclick="ujTagMentese()">FELVÉTEL</button>
-                    </div>
-                </div>
-                <div class="card" style="padding:0;overflow:hidden">
-                    <div style="padding:1.5rem; border-bottom:1px solid var(--border);">
-                        <input type="text" id="tag-kereso" placeholder="Keresés a tagok között..." style="margin:0; background:var(--surface-light); border-radius:99px;" oninput="szuresTagok(this.value)">
-                    </div>
-                    <div class="table-wrapper" style="padding: 1rem;">
-                        <table>
-                            <thead><tr><th>Tag adatai</th><th>Rang</th><th>Művelet</th></tr></thead>
-                            <tbody id="tagok-lista"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            
-            <div id="profil-section" class="section"></div>
-            
-            <div id="jogok-section" class="section">
-                <div class="card" style="padding:0;overflow:hidden">
-                    <div style="padding:1.5rem; border-bottom:1px solid var(--border);">
-                        <h2 style="display:flex;justify-content:space-between;align-items:center;margin:0;flex-wrap:wrap;gap:15px">
-                            ADMIN - Rangok és Jogok
-                            <button class="btn btn-primary" onclick="mentesOsszesRangText()">MENTÉS</button>
-                        </h2>
-                        <div style="display:flex;gap:15px;flex-wrap:wrap; margin-top:20px;">
-                            <input type="text" id="uj-rang-nev" placeholder="Új Rang Neve" style="width:200px;margin:0">
-                            <input type="number" id="uj-rang-prio" placeholder="Prio" style="width:100px;margin:0">
-                            <button class="btn" style="background:var(--surface-light);" onclick="letrehozRang()">Létrehozás</button>
+
+                    <div id="kerveny-form" class="card" style="display:none; border:1px solid var(--accent);">
+                        <h3 style="margin-top:0; color:var(--accent);">Kérvény Beküldése</h3>
+                        <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:15px;">Kérlek, részletesen és egyértelműen fogalmazd meg a kérésedet (pl. Inaktivitás, Rang emelés stb.).</p>
+                        <input type="text" id="kerveny-cim" placeholder="Kérvény tárgya">
+                        <textarea id="kerveny-tartalom" rows="5" placeholder="Indoklás és részletek..."></textarea>
+                        <div style="display:flex; justify-content:flex-end; gap:10px;">
+                            <button class="btn" onclick="document.getElementById('kerveny-form').style.display='none';">Mégse</button>
+                            <button class="btn btn-primary" onclick="bekuldKerveny()">Beküldés</button>
                         </div>
                     </div>
-                    <div class="table-wrapper" style="padding:1rem;">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Rang (P)</th><th>Leadandó</th><th>Hír Írás</th><th>Hír Törlés</th><th>Kassza</th>
-                                    <th>Tagfelvétel</th><th>Admin</th><th>Adat</th><th>Szervezés</th><th>Tervezés</th>
-                                    <th>Archívum</th><th>Warn</th><th>Kérvény</th><th></th>
-                                </tr>
-                            </thead>
-                            <tbody id="jogok-lista"></tbody>
-                        </table>
+                    <input type="text" id="kerveny-kereso" placeholder="Keresés beküldő neve szerint (IC/Discord)..." style="background:var(--surface); border:1px solid var(--border); border-radius:99px; padding:12px 20px;" oninput="szuresKervenyek(this.value)">
+                    <div id="kervenyek-lista"></div>
+                </div>
+                
+                <div id="leadando-section" class="section">
+                    <div class="card" style="text-align:center">
+                        <h2 style="margin-top:0">Heti Leadandó Státusz</h2>
+                        <p style="color:var(--text-muted);font-size:.9rem;margin-bottom:20px">A heti leadandót a vezetőség manuálisan zárja le.</p>
+                        <h1 id="leadando-sajat-display" style="font-size:2.5rem;margin:0 0 20px 0; font-weight:700;">Betöltés...</h1>
+                        <div id="leadando-befizetes-box" style="display:none;justify-content:center;align-items:center;gap:15px;flex-wrap:wrap;margin-top:10px">
+                            <input type="text" id="leadando-osszeg" placeholder="Összeg ($)" style="width:150px;margin:0;text-align:center" oninput="formatNumber(this)">
+                            <div style="display:flex;align-items:center;width:250px;position:relative;margin:0">
+                                <input type="text" id="leadando-link" placeholder="Igazoló Link (Imgur/Discord)" style="width:100%;margin:0">
+                                <div class="tooltip"><span style="color:var(--text-muted);font-weight:600;font-size:1.2rem;">ⓘ</span><span class="tooltiptext">Ide másold be a befizetést igazoló képernyőmentés linkjét!</span></div>
+                            </div>
+                            <button class="btn btn-warn" onclick="inditLeadando()">Befizetés rögzítése</button>
+                        </div>
+                    </div>
+                    <div id="leadando-admin-box" class="card" style="display:none;padding:0;overflow:hidden">
+                        <div style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border);">
+                            <h3 style="margin: 0;">Tagok Leadandó Állapota</h3>
+                            <button id="manualis-zaras-btn" class="btn btn-danger" style="display: none; padding: 0.5rem 1rem; font-size: 0.8rem; margin: 0;">HETI ZÁRÁS</button>
+                        </div>
+                        <div class="table-wrapper" style="padding: 0 1rem 1rem 1rem;">
+                            <table>
+                                <thead><tr><th>Név</th><th>Rang</th><th>Befizetve</th><th>Kötelező</th><th>Státusz</th></tr></thead>
+                                <tbody id="leadando-admin-lista"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="warn-section" class="section">
+                    <div class="card">
+                        <h3 style="margin-top:0">Új Figyelmeztetés Kiosztása</h3>
+                        <div style="display:flex;gap:15px;flex-wrap:wrap; margin-bottom:15px;">
+                            <select id="warn-tag-select" style="flex:1;min-width:200px; margin:0;"></select>
+                            <select id="warn-napok" style="flex:1;min-width:150px; margin:0;">
+                                <option value="1">1 Nap</option>
+                                <option value="7">7 Nap</option>
+                                <option value="30">30 Nap</option>
+                                <option value="0">Végleges</option>
+                            </select>
+                        </div>
+                        <textarea id="warn-indok" rows="2" placeholder="Figyelmeztetés indoka (Kötelező)"></textarea>
+                        <button class="btn btn-warn" style="width:100%" onclick="kiosztWarn()">Figyelmeztetés Rögzítése</button>
+                    </div>
+                    <div class="card" style="padding:0;overflow:hidden">
+                        <h3 style="padding:1.5rem; margin:0; border-bottom: 1px solid var(--border);">Kiosztott Warnok</h3>
+                        <div class="table-wrapper" style="padding: 1rem;">
+                            <table>
+                                <thead><tr><th>Dátum</th><th>Tag</th><th>Kiosztó</th><th>Lejárat</th><th>Állapot</th><th>Művelet</th></tr></thead>
+                                <tbody id="warn-lista"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="akcio-section" class="section">
+                    <div id="uj-akcio-box" class="card" style="display:none;">
+                        <h3 style="display:flex;justify-content:space-between;align-items:center; margin-top:0;">Új Esemény Szervezése
+                            <button id="szezon-zaras-btn" class="btn btn-danger" style="display:none;padding:.5rem 1rem;font-size:.8rem" onclick="szezonzaras()">Akciók archiválása</button>
+                        </h3>
+                        <div style="display:flex;gap:15px;flex-wrap:wrap; align-items:center;">
+                            <select id="uj-akcio-tipus" style="flex:1;min-width:150px;margin:0">
+                                <option value="ATM">ATM</option><option value="BANK">BANK</option><option value="SZIGET">SZIGET</option><option value="KÚT">KÚT</option>
+                            </select>
+                            <div id="tervezes-box" style="display:none; flex:1; min-width:150px;">
+                                <input type="datetime-local" id="uj-akcio-ido" style="margin:0;" title="Hagyd üresen, ha most azonnal indul">
+                            </div>
+                            <button class="btn btn-primary" style="flex:1;min-width:150px;" onclick="letrehozAkcio()">Esemény Indítása</button>
+                        </div>
+                    </div>
+                    <input type="text" id="akcio-kereso" placeholder="Keresés..." style="background:var(--surface); border:1px solid var(--border); border-radius:99px; padding:12px 20px;" oninput="szuresAkciok(this.value)">
+                    <div id="akciok-lista"></div>
+                </div>
+                
+                <div id="kassza-section" class="section">
+                    <div class="card" style="text-align:center">
+                        <p style="color:var(--text-muted); margin-bottom:5px;">Jelenlegi egyenleg</p>
+                        <h1 id="balanceDisplay" style="font-size:3rem; font-weight:700; margin:0 0 25px 0">0 $</h1>
+                        <div id="kassza-controls" style="display:none;justify-content:center;gap:15px;flex-wrap:wrap">
+                            <input type="text" id="osszeg" placeholder="Összeg" style="width:200px;margin:0" oninput="formatNumber(this)">
+                            <button class="btn" style="background:var(--success); color:white;" onclick="inditTranzakcio('be')">Befizetés</button>
+                            <button class="btn btn-danger" onclick="inditTranzakcio('ki')">Kifizetés</button>
+                        </div>
+                    </div>
+                    <div class="card" style="padding:0;overflow:hidden">
+                        <div class="table-wrapper" style="padding: 1rem;">
+                            <table>
+                                <thead><tr><th>Dátum</th><th>Tag</th><th>Típus</th><th>Összeg</th><th>Bizonyíték</th></tr></thead>
+                                <tbody id="kassza-log-lista"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="tagok-section" class="section">
+                    <div id="tag-felvetel-box" class="card" style="display:none;">
+                        <h3 style="margin-top:0">Új tag felvétele</h3>
+                        <p style="font-size:.8rem;color:var(--text-muted);margin-bottom:15px">Alapértelmezett jelszó: 123456</p>
+                        <div style="display:flex;gap:15px;flex-wrap:wrap">
+                            <input type="text" id="uj-tag-user" placeholder="Felhasználó név" style="flex:1;min-width:150px;margin:0">
+                            <input type="text" id="uj-tag-ic" placeholder="IC Név" style="flex:1;min-width:150px;margin:0">
+                            <input type="text" id="uj-tag-discord" placeholder="Discord" style="flex:1;min-width:150px;margin:0">
+                            <select id="uj-tag-rang-select" style="flex:1;min-width:150px;margin:0"></select>
+                            <button class="btn btn-primary" onclick="ujTagMentese()">FELVÉTEL</button>
+                        </div>
+                    </div>
+                    <div class="card" style="padding:0;overflow:hidden">
+                        <div style="padding:1.5rem; border-bottom:1px solid var(--border);">
+                            <input type="text" id="tag-kereso" placeholder="Keresés a tagok között..." style="margin:0; background:var(--surface-light); border-radius:99px;" oninput="szuresTagok(this.value)">
+                        </div>
+                        <div class="table-wrapper" style="padding: 1rem;">
+                            <table>
+                                <thead><tr><th>Tag adatai</th><th>Rang</th><th>Művelet</th></tr></thead>
+                                <tbody id="tagok-lista"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="profil-section" class="section"></div>
+                
+                <div id="jogok-section" class="section">
+                    <div class="card" style="padding:0;overflow:hidden">
+                        <div style="padding:1.5rem; border-bottom:1px solid var(--border);">
+                            <h2 style="display:flex;justify-content:space-between;align-items:center;margin:0;flex-wrap:wrap;gap:15px">
+                                ADMIN - Rangok és Jogok
+                                <button class="btn btn-primary" onclick="mentesOsszesRangText()">MENTÉS</button>
+                            </h2>
+                            <div style="display:flex;gap:15px;flex-wrap:wrap; margin-top:20px;">
+                                <input type="text" id="uj-rang-nev" placeholder="Új Rang Neve" style="width:200px;margin:0">
+                                <input type="number" id="uj-rang-prio" placeholder="Prio" style="width:100px;margin:0">
+                                <button class="btn" style="background:var(--surface-light);" onclick="letrehozRang()">Létrehozás</button>
+                            </div>
+                        </div>
+                        <div class="table-wrapper" style="padding:1rem;">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Rang (P)</th><th>Leadandó</th><th>Hír Írás</th><th>Hír Törlés</th><th>Kassza</th>
+                                        <th>Tagfelvétel</th><th>Admin</th><th>Adat</th><th>Szervezés</th><th>Tervezés</th>
+                                        <th>Archívum</th><th>Warn</th><th>Kérvény</th><th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="jogok-lista"></tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -653,7 +827,8 @@
         if (d.success) {
             if (d.elso_belepes) {
                 window.tempId = d.user.id; document.getElementById('login-screen').style.display = 'none';
-                document.getElementById('main-app').style.display = 'block'; document.querySelector('nav').style.display = 'none'; 
+                document.getElementById('main-app').style.display = 'flex'; 
+                document.querySelector('.sidebar').style.display = 'none'; 
                 tab('password-screen', null);
             } else {
                 localStorage.setItem('klani_token', d.token); sessionStorage.setItem('welcome_name', d.ic_nev || n); location.reload();
@@ -681,16 +856,18 @@
             myUserId = d.id; myUserName = d.ic_nev || d.nev; myUserRang = d.rang; myPermissions = d;
             
             document.getElementById('logged-in-user').innerHTML = `<div style="width:28px; height:28px; background:var(--surface-light); border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--text-muted); border: 1px solid var(--border);"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 50%; height: 50%;"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div><span>${myUserName}</span>`;
-            document.getElementById('header-rang').innerText = 'RANG: ' + myUserRang; document.getElementById('login-screen').style.display = 'none'; document.getElementById('main-app').style.display = 'block';
+            document.getElementById('header-rang').innerText = 'RANG: ' + myUserRang; 
+            document.getElementById('login-screen').style.display = 'none'; 
+            document.getElementById('main-app').style.display = 'flex';
             
             checkA();
             const rJ = await apiFetch('/api/jogosultsagok'); ALL_RANGS = await rJ.json();
             
-            if (myPermissions.jog_admin) { const nj = document.getElementById('nav-jogok'); if (nj) nj.style.display = 'block'; fetchJogok(); }
+            if (myPermissions.jog_admin) { const nj = document.getElementById('nav-jogok'); if (nj) nj.style.display = 'flex'; fetchJogok(); }
             if (myPermissions.jog_akcio) { const uab = document.getElementById('uj-akcio-box'); if (uab) uab.style.display = 'block'; }
             if (myPermissions.jog_akcio_tervezes || myUserRang === 'DEV') { const tbb = document.getElementById('tervezes-box'); if (tbb) tbb.style.display = 'block'; }
             if (myUserRang === 'DEV' || myUserRang === 'Keshilli i Vjeter') { const szb = document.getElementById('szezon-zaras-btn'); if (szb) szb.style.display = 'block'; }
-            if (myPermissions.jog_warn) { const nw = document.getElementById('nav-warn'); if (nw) nw.style.display = 'block'; }
+            if (myPermissions.jog_warn) { const nw = document.getElementById('nav-warn'); if (nw) nw.style.display = 'flex'; }
             if (myPermissions.tag_kezel || myPermissions.jog_admin) { const lab = document.getElementById('leadando-admin-box'); if (lab) lab.style.display = 'block'; }
             if (myPermissions.jog_admin || myUserRang === 'DEV') { const mzb = document.getElementById('manualis-zaras-btn'); if (mzb) mzb.style.display = 'block'; }
             
@@ -707,6 +884,44 @@
 
     let aktivKervenyId = null, isAllKervenyekLoaded = false;
 
+    function frissitKervenyErtesito(kervenyekList) {
+        const navKerveny = document.getElementById('nav-kerveny');
+        if (!navKerveny || !myPermissions) return;
+
+        const isAdmin = myPermissions.jog_kerveny || myUserRang === 'DEV';
+        const pendingCount = kervenyekList.filter(k => k.statusz === 'Függőben').length;
+        
+        let hasUnreadComment = false;
+        kervenyekList.forEach(k => {
+            if (k.bekuldo_id === myUserId && (k.statusz === 'Függőben' || k.statusz === 'Folyamatban')) {
+                const readCount = parseInt(localStorage.getItem('read_comments_' + k.id) || '0');
+                const actualCount = k.kommentek ? k.kommentek.length : 0;
+                if (actualCount > readCount) {
+                    const lastComment = k.kommentek[actualCount - 1];
+                    if (lastComment && lastComment.iro_id !== myUserId) {
+                        hasUnreadComment = true;
+                    }
+                }
+            }
+        });
+
+        let h = 'Kérvények';
+        let alertOn = false;
+
+        if (isAdmin && pendingCount > 0) {
+            h += ` <span class="kerveny-badge">${pendingCount}</span>`;
+            alertOn = true;
+        }
+        if (hasUnreadComment) {
+            h += ` <span class="kerveny-badge" style="background:var(--danger); color:white; padding: 2px 6px;">❗</span>`;
+            alertOn = true;
+        }
+
+        navKerveny.innerHTML = h;
+        if (alertOn) navKerveny.classList.add('has-kerveny-alert');
+        else navKerveny.classList.remove('has-kerveny-alert');
+    }
+
     async function fetchKervenyek(loadAll = false) {
         if (loadAll) isAllKervenyekLoaded = true;
         const r = await apiFetch(`/api/kervenyek${isAllKervenyekLoaded ? '?all=true' : ''}`); if (!r) return;
@@ -715,6 +930,8 @@
         const btn = document.getElementById('uj-kerveny-btn');
         const hasActive = d.find(x => x.bekuldo_id === myUserId && (x.statusz === 'Függőben' || x.statusz === 'Folyamatban'));
         if (btn) btn.style.display = hasActive ? 'none' : 'inline-flex';
+        
+        frissitKervenyErtesito(d);
         renderKervenyLista(d);
     }
 
@@ -731,6 +948,17 @@
         }
 
         kervenyekTomb.forEach(k => {
+            let hasUnread = false;
+            if (k.bekuldo_id === myUserId && (k.statusz === 'Függőben' || k.statusz === 'Folyamatban')) {
+                const readCount = parseInt(localStorage.getItem('read_comments_' + k.id) || '0');
+                const actualCount = k.kommentek ? k.kommentek.length : 0;
+                if (actualCount > readCount) {
+                    const lastComment = k.kommentek[actualCount - 1];
+                    if (lastComment && lastComment.iro_id !== myUserId) hasUnread = true;
+                }
+            }
+            let unreadBadge = hasUnread ? `<span class="badge" style="background:var(--danger); color:white; margin-left:10px; padding: 2px 6px;">Új üzenet ❗</span>` : '';
+
             let sC = 'var(--warn)'; if (k.statusz === 'Elfogadva') sC = 'var(--success)'; if (k.statusz === 'Elutasítva') sC = 'var(--danger)';
             let gombok = '';
             if (isAdmin && k.statusz === 'Függőben') {
@@ -751,7 +979,7 @@
                     <div class="akcio-avatar" style="color:${sC}; border: 1px solid ${sC}; background:transparent;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 50%; height: 50%;"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div>
                     <div style="flex:1;">
                         <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <span style="font-weight:600; font-size:1.05rem; color:var(--text);">${k.cim}</span>
+                            <span style="font-weight:600; font-size:1.05rem; color:var(--text);">${k.cim}${unreadBadge}</span>
                             <div style="display:flex; align-items:center; gap:10px;">
                                 <span style="color:var(--text-muted); font-size:0.85rem;">${new Date(k.datum).toLocaleDateString()}</span>
                                 <span class="badge" style="background:transparent; border:1px solid ${sC}; color:${sC}; margin:0;">${k.statusz}</span>
@@ -782,6 +1010,14 @@
         if (!window.GLOBAL_KERVENYEK) return; const k = window.GLOBAL_KERVENYEK.find(x => x.id === id); if (!k) return;
         aktivKervenyId = id; document.getElementById('modal-kerveny-cim').innerText = k.cim;
         document.getElementById('modal-kerveny-bekuldo').innerText = k.bekuldo_nev; document.getElementById('modal-kerveny-tartalom').innerText = k.tartalom;
+        
+        if (k.kommentek) localStorage.setItem('read_comments_' + k.id, k.kommentek.length);
+        frissitKervenyErtesito(window.GLOBAL_KERVENYEK);
+        if (document.getElementById('kervenyek-section').classList.contains('active')) {
+            const kereso = document.getElementById('kerveny-kereso');
+            szuresKervenyek(kereso ? kereso.value : '');
+        }
+
         frissitKervenyChatDoboz(k); document.getElementById('kerveny-chat-modal').style.display = 'flex';
     }
 
@@ -823,7 +1059,13 @@
         
         if (r) {
             const k = window.GLOBAL_KERVENYEK.find(x => x.id === aktivKervenyId);
-            if(k) { if (!k.kommentek) k.kommentek = []; k.kommentek.push({ iro: myUserName, szoveg: szoveg, ido: new Date().toISOString(), iro_id: myUserId }); frissitKervenyChatDoboz(k); }
+            if(k) { 
+                if (!k.kommentek) k.kommentek = []; 
+                k.kommentek.push({ iro: myUserName, szoveg: szoveg, ido: new Date().toISOString(), iro_id: myUserId }); 
+                localStorage.setItem('read_comments_' + k.id, k.kommentek.length);
+                frissitKervenyChatDoboz(k); 
+                frissitKervenyErtesito(window.GLOBAL_KERVENYEK);
+            }
             input.value = ''; fetchKervenyek();
         }
         input.disabled = false; btn.disabled = false; btn.innerText = 'Küldés';
@@ -1208,6 +1450,7 @@
         t.innerHTML = `<h2 style="margin:0; font-size:1.8rem; color:var(--accent);">ÜDVÖZÖLLEK, ${icNev ? icNev.toUpperCase() : 'USER'}!</h2><p style="margin:0; color:var(--text-muted);">Sikeresen bejelentkeztél.</p>`;
         setTimeout(() => { t.classList.add('show'); }, 200); setTimeout(() => { t.classList.remove('show'); }, 4000);
     }
+    
     setInterval(async () => {
         if (!myUserId) return;
         
@@ -1231,12 +1474,18 @@
                 const ujKervenyek = await rK.json();
                 if (JSON.stringify(window.GLOBAL_KERVENYEK) !== JSON.stringify(ujKervenyek)) {
                     window.GLOBAL_KERVENYEK = ujKervenyek;
-                    if (document.getElementById('kervenyek-section').classList.contains('active')) { const k = document.getElementById('kerveny-kereso'); szuresKervenyek(k ? k.value : ''); }
                     
                     const modal = document.getElementById('kerveny-chat-modal');
                     if (modal && modal.style.display === 'flex' && aktivKervenyId) {
-                        const k = window.GLOBAL_KERVENYEK.find(x => x.id === aktivKervenyId); if (k) frissitKervenyChatDoboz(k);
+                        const k = window.GLOBAL_KERVENYEK.find(x => x.id === aktivKervenyId); 
+                        if (k) {
+                            if (k.kommentek) localStorage.setItem('read_comments_' + k.id, k.kommentek.length);
+                            frissitKervenyChatDoboz(k);
+                        }
                     }
+                    
+                    frissitKervenyErtesito(ujKervenyek);
+                    if (document.getElementById('kervenyek-section').classList.contains('active')) { const k = document.getElementById('kerveny-kereso'); szuresKervenyek(k ? k.value : ''); }
                 }
             }
         } catch(e) {}
@@ -1247,7 +1496,6 @@
                 const ujHirek = await rH.json();
                 if (JSON.stringify(window.GLOBAL_HIREK) !== JSON.stringify(ujHirek)) {
                     window.GLOBAL_HIREK = ujHirek;
-                    // Csak akkor rajzoljuk újra a listát a háttérben, ha a felhasználó épp nincs az írás mezőben aktívan, így nem zavarja meg a gépelést
                     if (document.activeElement !== document.getElementById('hir-cim') && document.activeElement !== document.getElementById('hir-tartalom')) {
                         renderHirekLista(ujHirek);
                     }
